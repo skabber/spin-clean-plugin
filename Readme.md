@@ -15,4 +15,4 @@ cargo build
 ## TODO
 
 - [ ] Build Action
-- [ ] Finish spin-clean/spin-clean.json
+- [ ] Finish spin-clean/clean.json

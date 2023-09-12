@@ -1,0 +1,3 @@
+[submodule "spin"]
+	path = spin
+	url = git@github.com:fermyon/spin.git

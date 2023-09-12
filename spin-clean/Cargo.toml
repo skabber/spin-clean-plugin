@@ -1,0 +1,17 @@
+[package]
+name = "clean"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.75"
+spin-common = { path = "../spin/crates/common" }
+spin-loader = { path = "../spin/crates/loader" }
+spin-build = { path = "../spin/crates/build" }
+terminal = { path = "../spin/crates/terminal" }
+tokio = { version = "1.32.0", features = ["fs", "rt-multi-thread", "macros"] }
+toml = "0.7.6"
+serde = { version = "1.0", features = ["derive"] }
+subprocess = "0.2.8"

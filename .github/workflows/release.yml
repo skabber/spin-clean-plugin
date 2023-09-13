@@ -18,7 +18,6 @@ jobs:
           - {
               os: "ubuntu-20.04",
               arch: "amd64",
-              extraArgs: "--features openssl/vendored",
               binExtension: "",
               target: "",
               targetDir: "target/release",
@@ -27,7 +26,7 @@ jobs:
               os: "ubuntu-20.04",
               arch: "aarch64",
               binExtension: "",
-              extraArgs: "--features openssl/vendored --target aarch64-unknown-linux-gnu",
+              extraArgs: "--target aarch64-unknown-linux-gnu",
               target: "aarch64-unknown-linux-gnu",
               targetDir: "target/aarch64-unknown-linux-gnu/release",
             }

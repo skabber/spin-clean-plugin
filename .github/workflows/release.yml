@@ -83,10 +83,8 @@ jobs:
           echo 'linker = "aarch64-linux-gnu-gcc"' >> ${HOME}/.cargo/config.toml
 
       - name: Build release
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: "--all-features --release ${{ matrix.config.extraArgs }}"
+        working-directory: clean
+        run: cargo build --release ${{ matrix.config.extraArgs }}
 
       - name: Package release assets
         shell: bash

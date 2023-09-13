@@ -14,5 +14,6 @@ cargo build
 
 ## TODO
 
-- [ ] Build Action
-- [ ] Finish clean/clean.json
+- [x] Build Action
+- [x] Finish clean/clean.json
+- [ ] Add flag to delete .spin/

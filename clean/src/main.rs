@@ -1,27 +1,11 @@
 use anyhow::{anyhow, bail, Context, Result};
 use serde::{Deserialize, Serialize};
-use spin_loader::local::config::FixedStringVersion;
 use spin_loader::local::parent_dir;
 use std::{
     collections::HashSet,
     path::{Path, PathBuf},
 };
 use subprocess::{Exec, Redirection};
-
-#[derive(Clone, Debug, Deserialize)]
-pub(crate) struct BuildAppInfoAnyVersion {
-    #[allow(dead_code)]
-    #[serde(alias = "spin_version")]
-    spin_manifest_version: FixedStringVersion<1>,
-    #[serde(flatten)]
-    manifest: BuildAppInfoV1,
-}
-
-impl BuildAppInfoAnyVersion {
-    pub fn into_v1(self) -> BuildAppInfoV1 {
-        self.manifest
-    }
-}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -56,15 +40,13 @@ pub(crate) struct RawCleanConfig {
 #[tokio::main]
 async fn main() -> Result<()> {
     let current_dir = std::env::current_dir()?;
-    let manifest_file = spin_common::paths::resolve_manifest_file_path(current_dir)?;
+    let manifest_file = current_dir.as_path().join("spin-clean.toml");
     let manifest_text = tokio::fs::read_to_string(&manifest_file)
         .await
         .with_context(|| format!("Cannot read manifest file from {}", manifest_file.display()))?;
-    let app = toml::from_str(&manifest_text).map(BuildAppInfoAnyVersion::into_v1)?;
+    let app: BuildAppInfoV1 = toml::from_str(&manifest_text)?;
     let app_dir = parent_dir(manifest_file)?;
-
     let component_ids: Vec<String> = vec![];
-
     let components_to_clean = if component_ids.is_empty() {
         app.components
     } else {
@@ -100,7 +82,7 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-/// Run the build command of the component.
+/// Run the clean command of the component.
 fn clean_component(raw: RawComponentManifest, app_dir: &Path) -> Result<()> {
     match raw.clean {
         Some(b) => {

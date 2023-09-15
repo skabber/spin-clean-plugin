@@ -1,0 +1,40 @@
+{
+  "name": "clean",
+  "description": "Command to clean the build folders.",
+  "homepage": "",
+  "version": "0.0.1",
+  "spinCompatibility": ">=0.4",
+  "license": "Apache-2.0",
+  "packages": [
+    {
+      "os": "linux",
+      "arch": "amd64",
+      "url": "https://github.com/skabber/spin-clean-plugin/releases/download/v0.0.1/clean-v0.0.1-linux-amd64.tar.gz",
+      "sha256": "1851cd5f28bb668ab2fc22918430a9049515864d2b447d1053b0534803048e46"
+    },
+    {
+      "os": "linux",
+      "arch": "aarch64",
+      "url": "https://github.com/skabber/spin-clean-plugin/releases/download/v0.0.1/clean-v0.0.1-linux-aarch64.tar.gz",
+      "sha256": "b0f0e59b973ebf833af0e5f35c36f38e2064656bf5b191a3f6f4496692176e89"
+    },
+    {
+      "os": "macos",
+      "arch": "aarch64",
+      "url": "https://github.com/skabber/spin-clean-plugin/releases/download/v0.0.1/clean-v0.0.1-macos-aarch64.tar.gz",
+      "sha256": "99a5287424a2db2eea87de4adfed777a284ff1d03e590a5b4cd68547d454cad6"
+    },
+    {
+      "os": "macos",
+      "arch": "amd64",
+      "url": "https://github.com/skabber/spin-clean-plugin/releases/download/v0.0.1/clean-v0.0.1-macos-amd64.tar.gz",
+      "sha256": "88b8493da9bd7fcf395168df28d4ab4c4d497a971544b621ef23899c4b63d6d6"
+    },
+    {
+      "os": "windows",
+      "arch": "amd64",
+      "url": "https://github.com/skabber/spin-clean-plugin/releases/download/v0.0.1/clean-v0.0.1-windows-amd64.tar.gz",
+      "sha256": "c7f4c1a75d34e8f6a498c25041e5ca3214315b0b7ff6ed3119797a0780772fce"
+    }
+  ]
+}

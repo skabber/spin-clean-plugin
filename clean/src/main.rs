@@ -1,6 +1,6 @@
 use anyhow::{anyhow, bail, Context, Result};
 use serde::{Deserialize, Serialize};
-use spin_loader::local::parent_dir;
+use path_absolutize::Absolutize;
 use std::{
     collections::HashSet,
     path::{Path, PathBuf},
@@ -77,7 +77,9 @@ async fn main() -> Result<()> {
         .map(|c| clean_component(c, &app_dir))
         .collect::<Result<Vec<_>, _>>()?;
 
-    terminal::step!("Finished", "cleaning all Spin components");
+    // TODO: Reimplement this the hard way.
+    // terminal::step!("Finished", "cleaning all Spin components");
+    println!("Finished - cleaning all Spin components");
 
     Ok(())
 }
@@ -86,7 +88,7 @@ async fn main() -> Result<()> {
 fn clean_component(raw: RawComponentManifest, app_dir: &Path) -> Result<()> {
     match raw.clean {
         Some(b) => {
-            terminal::step!("Cleaning", "component {} with `{}`", raw.id, b.command);
+            println!("Cleaning - component {} with `{}`", raw.id, b.command);
             let workdir = construct_workdir(app_dir, b.workdir.as_ref())?;
             let exit_status = Exec::shell(&b.command)
                 .cwd(workdir)
@@ -133,4 +135,25 @@ fn construct_workdir(app_dir: &Path, workdir: Option<impl AsRef<Path>>) -> Resul
     }
 
     Ok(cwd)
+}
+
+pub fn parent_dir(file: impl AsRef<Path>) -> Result<PathBuf> {
+    let path_buf = file.as_ref().parent().ok_or_else(|| {
+        anyhow::anyhow!(
+            "Failed to get containing directory for file '{}'",
+            file.as_ref().display()
+        )
+    })?;
+
+    absolutize(path_buf)
+}
+
+/// Returns absolute path to the file
+pub fn absolutize(path: impl AsRef<Path>) -> Result<PathBuf> {
+    let path = path.as_ref();
+
+    Ok(path
+        .absolutize()
+        .with_context(|| format!("Failed to resolve absolute path to: {}", path.display()))?
+        .to_path_buf())
 }

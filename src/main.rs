@@ -41,6 +41,11 @@ pub(crate) struct RawCleanConfig {
 async fn main() -> Result<()> {
     let current_dir = std::env::current_dir()?;
     let manifest_file = current_dir.as_path().join("spin-clean.toml");
+    if !manifest_file.as_path().exists() {
+        bail!("No spin-clean.toml file found.\n\
+        Please visit https://github.com/skabber/spin-clean-plugin/blob/main/Readme.md for usage information.");
+        
+    }
     let manifest_text = tokio::fs::read_to_string(&manifest_file)
         .await
         .with_context(|| format!("Cannot read manifest file from {}", manifest_file.display()))?;
@@ -52,7 +57,7 @@ async fn main() -> Result<()> {
     } else {
         let all_ids: HashSet<_> = app.components.iter().map(|c| &c.id).collect();
         let unknown_component_ids: Vec<_> = component_ids
-            .iter()
+            .iter() 
             .filter(|id| !all_ids.contains(id))
             .map(|s| s.as_str())
             .collect();
